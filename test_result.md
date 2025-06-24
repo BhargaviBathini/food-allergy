@@ -162,8 +162,6 @@ metadata:
 test_plan:
   current_focus:
     - "Food Analysis with Gemini API"
-    - "Error Handling for Invalid Login"
-    - "Error Handling for Nonexistent User"
   stuck_tasks:
     - "Food Analysis with Gemini API"
   test_all: false
