@@ -25,12 +25,144 @@
 
 ## Test Results
 
-### Latest Backend Test
-Status: Not tested yet
-Date: Initial setup
-Notes: Backend created with Gemini AI integration, user auth, and food analysis endpoints
+backend:
+  - task: "Health Check Endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "Health check endpoint is working correctly, returning 200 status code and 'healthy' status."
 
-### Latest Frontend Test  
-Status: Not tested yet
-Date: Initial setup
-Notes: React app created with camera, image upload, authentication, and beautiful UI
+  - task: "User Registration"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "User registration endpoint is working correctly, successfully creating new users with proper response."
+
+  - task: "User Login"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "Login endpoint is working correctly for valid credentials, returning user data and success status."
+
+  - task: "Get User Data"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "Get user endpoint is working correctly, returning proper user data for valid user IDs."
+
+  - task: "Update User Allergies"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "Update allergies endpoint is working correctly, successfully updating user allergies and returning success status."
+
+  - task: "Food Analysis with Gemini API"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "Food analysis endpoint is failing with a 500 error. The Gemini API key appears to be invalid or has expired. Error: 'API key not valid. Please pass a valid API key.'"
+
+  - task: "Food History Retrieval"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "Food history endpoint is working correctly, returning an empty list as expected since no successful analyses have been performed."
+
+  - task: "Error Handling for Invalid Login"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 1
+    priority: "low"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "Error handling for invalid login is not working correctly. Expected 401 status code but received 500 with an empty detail message."
+
+  - task: "Error Handling for Nonexistent User"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 1
+    priority: "low"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "Error handling for nonexistent user is not working correctly. Expected 404 status code but received 500 with an empty detail message."
+
+frontend:
+  - task: "Frontend Testing"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Frontend testing not performed as per instructions."
+
+metadata:
+  created_by: "testing_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Food Analysis with Gemini API"
+    - "Error Handling for Invalid Login"
+    - "Error Handling for Nonexistent User"
+  stuck_tasks:
+    - "Food Analysis with Gemini API"
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "testing"
+    message: "Completed initial backend API testing. The core authentication and user management endpoints are working correctly. However, the food analysis endpoint is failing due to an invalid Gemini API key. Also found minor issues with error handling for invalid login and nonexistent user endpoints."
