@@ -216,24 +216,12 @@ async def analyze_food_image(
         user_allergies = user_doc["allergies"]
         
         # Analyze image with Gemini
-        chat = create_gemini_chat()
-        
-        # Create image content
-        image_content = ImageContent(image_base64=image_base64)
-        
-        # Create message with user's specific allergies
-        user_message = UserMessage(
-            text=f"Analyze this food image and identify ingredients. Pay special attention to these allergens the user is allergic to: {', '.join(user_allergies)}. Return your response as JSON.",
-            file_contents=[image_content]
-        )
-        
-        # Get AI analysis
-        response = await chat.send_message(user_message)
+        ai_response = analyze_image_with_gemini(image_base64, user_allergies)
         
         # Parse JSON response
         try:
             # Clean up response if needed
-            response_text = response.strip()
+            response_text = ai_response.strip()
             if response_text.startswith('```json'):
                 response_text = response_text.split('```json')[1].split('```')[0]
             elif response_text.startswith('```'):
