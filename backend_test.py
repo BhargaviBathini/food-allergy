@@ -291,9 +291,9 @@ class FoodAllergyDetectorAPITest(unittest.TestCase):
         print(f"Status Code: {response.status_code}")
         print(f"Response: {response.text}")
         
-        # The API should return 401 for invalid credentials, but it's returning 500
-        # This is a bug in the implementation
-        print("⚠️ Invalid login test - Expected 401, got 500 (bug in error handling)")
+        self.assertEqual(response.status_code, 401)
+        self.assertIn("Invalid credentials", response.text)
+        print("✅ Invalid login test passed - Returns 401 as expected")
     
     def test_nonexistent_user(self):
         """Test getting a nonexistent user"""
