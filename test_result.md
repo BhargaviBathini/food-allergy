@@ -166,3 +166,5 @@ test_plan:
 agent_communication:
   - agent: "testing"
     message: "Completed initial backend API testing. The core authentication and user management endpoints are working correctly. However, the food analysis endpoint is failing due to an invalid Gemini API key. Also found minor issues with error handling for invalid login and nonexistent user endpoints."
+  - agent: "testing"
+    message: "The Gemini API key in backend/.env appears to be invalid. According to research, this could be due to: 1) The key format is incorrect or contains extra characters, 2) The key has API restrictions that prevent it from accessing the Generative Language API, 3) The key needs to be regenerated, or 4) The key hasn't been activated yet. Recommend generating a new Gemini API key from the Google Cloud Console and updating the backend/.env file."
