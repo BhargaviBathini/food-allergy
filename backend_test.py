@@ -305,9 +305,9 @@ class FoodAllergyDetectorAPITest(unittest.TestCase):
         print(f"Status Code: {response.status_code}")
         print(f"Response: {response.text}")
         
-        # The API should return 404 for nonexistent user, but it's returning 500
-        # This is a bug in the implementation
-        print("⚠️ Nonexistent user test - Expected 404, got 500 (bug in error handling)")
+        self.assertEqual(response.status_code, 404)
+        self.assertIn("User not found", response.text)
+        print("✅ Nonexistent user test passed - Returns 404 as expected")
 
 if __name__ == "__main__":
     # Run the tests
