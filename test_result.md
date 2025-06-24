@@ -112,27 +112,33 @@ backend:
 
   - task: "Error Handling for Invalid Login"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/server.py"
-    stuck_count: 1
+    stuck_count: 0
     priority: "low"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "testing"
         comment: "Error handling for invalid login is not working correctly. Expected 401 status code but received 500 with an empty detail message."
+      - working: true
+        agent: "testing"
+        comment: "Fixed error handling for invalid login. Now correctly returns 401 status code with 'Invalid credentials' message."
 
   - task: "Error Handling for Nonexistent User"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/server.py"
-    stuck_count: 1
+    stuck_count: 0
     priority: "low"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "testing"
         comment: "Error handling for nonexistent user is not working correctly. Expected 404 status code but received 500 with an empty detail message."
+      - working: true
+        agent: "testing"
+        comment: "Fixed error handling for nonexistent user. Now correctly returns 404 status code with 'User not found' message."
 
 frontend:
   - task: "Frontend Testing"
