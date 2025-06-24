@@ -59,16 +59,19 @@ class FoodAnalysisResult(BaseModel):
     confidence: float
     warning_message: Optional[str] = None
 
-# Initialize Gemini chat
-def create_gemini_chat():
-    return LlmChat(
-        api_key=GEMINI_API_KEY,
-        session_id=f"food-analysis-{uuid.uuid4().hex[:8]}",
-        system_message="""You are a specialized food identification assistant. Analyze food images and provide accurate ingredient and allergen information.
+# Initialize Gemini chat - using direct API
+def analyze_image_with_gemini(image_base64, user_allergies):
+    """Analyze food image using Gemini API directly"""
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
+    
+    headers = {'Content-Type': 'application/json'}
+    
+    prompt = f"""Analyze this food image and identify ingredients and allergens. 
+Pay special attention to these allergens the user is allergic to: {', '.join(user_allergies)}.
 
 Focus on detecting these common allergens:
 - Nuts (peanuts, tree nuts)
-- Dairy (milk, cheese, butter)
+- Dairy (milk, cheese, butter) 
 - Gluten (wheat, barley, rye)
 - Shellfish (shrimp, crab, lobster)
 - Eggs
@@ -77,15 +80,43 @@ Focus on detecting these common allergens:
 - Sesame
 
 Return your response as a JSON object with this exact structure:
-{
+{{
     "food_name": "name of the dish",
     "ingredients": ["ingredient1", "ingredient2", "ingredient3"],
     "allergens_detected": ["allergen1", "allergen2"],
     "confidence": 0.95
-}
+}}
 
-Be thorough and conservative - if you're unsure about an ingredient, include it in the allergens list for safety."""
-    ).with_model("gemini", "gemini-2.0-flash")
+Be thorough and conservative - if you're unsure about an ingredient, include it for safety."""
+
+    payload = {
+        "contents": [{
+            "parts": [
+                {"text": prompt},
+                {
+                    "inline_data": {
+                        "mime_type": "image/jpeg",
+                        "data": image_base64
+                    }
+                }
+            ]
+        }]
+    }
+    
+    response = requests.post(url, headers=headers, json=payload)
+    
+    if response.status_code == 200:
+        result = response.json()
+        if 'candidates' in result and len(result['candidates']) > 0:
+            content = result['candidates'][0]['content']['parts'][0]['text']
+            return content
+        else:
+            raise Exception("No response from Gemini API")
+    else:
+        raise Exception(f"Gemini API error: {response.status_code} - {response.text}")
+
+def create_gemini_chat():
+    return None  # Not needed anymore
 
 # API Routes
 @app.get("/api/health")
