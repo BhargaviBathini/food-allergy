@@ -182,6 +182,8 @@ async def get_user(user_id: str):
             "email": user_doc["email"],
             "allergies": user_doc["allergies"]
         }
+    except HTTPException as he:
+        raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
