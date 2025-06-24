@@ -8,6 +8,7 @@ import base64
 import uuid
 from typing import List, Optional
 import asyncio
+import requests
 from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
 
 # Environment variables
