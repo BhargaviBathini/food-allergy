@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pymongo import MongoClient
 import os
+from dotenv import load_dotenv
 import json
 import base64
 import uuid
@@ -11,9 +12,14 @@ import asyncio
 import requests
 from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
 
+# Load environment variables
+load_dotenv()
+
 # Environment variables
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+
+print(f"🔑 Loaded API Key: {GEMINI_API_KEY[:10]}..." if GEMINI_API_KEY else "❌ No API Key found")
 
 # FastAPI app
 app = FastAPI(title="Food Allergy Detector API")
